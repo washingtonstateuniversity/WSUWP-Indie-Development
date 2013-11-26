@@ -47,7 +47,6 @@ wsuwp-www-umount-initial:
     - name: sudo umount /var/www/
     - require:
       - sls: webserver
-      - cmd: wsuwp-dev-initial
     - require_in:
       - cmd: wsuwp-www-mount-initial
 
