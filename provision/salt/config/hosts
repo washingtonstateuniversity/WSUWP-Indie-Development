@@ -1,0 +1,6 @@
+127.0.0.1   wsuwp-single localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+### Host entries for WSUWP Environment
+127.0.0.1              wpsingle.wsu.edu
+#######################################
