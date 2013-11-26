@@ -25,16 +25,12 @@ wsuwp-db:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
-    - require_in:
-      - cmd: wsuwp-db-import
   mysql_database.present:
     - name: wsuwp
     - require:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
-    - require_in:
-      - cmd: wsuwp-db-import
   mysql_grants.present:
     - grant: all privileges
     - database: wsuwp.*
@@ -43,8 +39,6 @@ wsuwp-db:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
-    - require_in:
-      - cmd: wsuwp-db-import
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
