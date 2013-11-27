@@ -46,6 +46,8 @@ wsuwp-db-{{ project }}:
     - name: cp /var/www/{{ project_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ project_args['name'] }}.conf
     - require:
       - pkg: nginx
+  cmd.run:
+    - name: cat /var/www/{{ project_args['name'] }}/hosts >> /etc/hosts
 {% endfor %}
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
