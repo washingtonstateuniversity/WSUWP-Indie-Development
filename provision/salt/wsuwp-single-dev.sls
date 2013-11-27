@@ -67,3 +67,7 @@ wsuwp-flush-cache:
     - name: sudo service memcached restart
     - require:
       - sls: cacheserver
+  cmd.run:
+    - name: sudo service nginx restart
+    - require:
+      - sls: webserver
