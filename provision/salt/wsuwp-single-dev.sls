@@ -47,7 +47,7 @@ wsuwp-db-{{ project }}:
     - require:
       - pkg: nginx
   cmd.run:
-    - name: cat /var/www/{{ project_args['name'] }}/hosts >> /etc/hosts
+    - name: echo -e "\n127.0.0.1 $(cat /var/www/{{ project_args['name'] }}/hosts)" >> /etc/hosts
 {% endfor %}
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
