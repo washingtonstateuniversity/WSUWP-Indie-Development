@@ -8,6 +8,8 @@
 #
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+vagrant_dir = File.expand_path(File.dirname(__FILE__))
+
 Vagrant.configure("2") do |config|
 
   # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
@@ -34,16 +36,31 @@ Vagrant.configure("2") do |config|
   # Local Machine Hosts
   #
   # If the Vagrant plugin hostsupdater (https://github.com/cogitatio/vagrant-hostsupdater) is
-  # installed, the following will automatically configure your local machine's hosts file to
-  # be aware of the domains specified below. Watch the provisioning script as you may be
-  # required to enter a password for Vagrant to access your hosts file.
-  #
-  # The domains provided in this setup are intended to act as a good representation of possible
-  # scenarios with the WSUWP Platform setup.
+  # installed, the following will automatically configure your local machine's hosts file with
+  # the domains specified in each project's `hosts` file.
   if defined? VagrantPlugins::HostsUpdater
-    config.hostsupdater.aliases = [
-      "wpsingle.wsu.edu"
-    ]
+
+    # Capture the paths to all `hosts` files under the repository's `www` directory.
+    paths = []
+    Dir.glob(vagrant_dir + '/www/**/hosts').each do |path|
+      paths << path
+    end
+
+    # Parse through the `hosts` files in each of the found paths and put the hosts
+    # that are found into a single array. Lines commented out with # will be skipped.
+    hosts = []
+    paths.each do |path|
+      new_hosts = []
+      file_hosts = IO.read(path).split( "\n" )
+      file_hosts.each do |line|
+        if line[0..0] != "#"
+          new_hosts << line
+        end
+      end
+      hosts.concat new_hosts
+    end
+
+    config.hostsupdater.aliases = hosts
   end
 
   # Salt Provisioning
