@@ -1,4 +1,4 @@
-WSUWP Environment
+WSUWP Single
 
 Copyright 2013 by the contributors
 
