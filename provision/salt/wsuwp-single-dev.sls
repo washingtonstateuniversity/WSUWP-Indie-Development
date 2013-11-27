@@ -1,7 +1,7 @@
 # wsuwp-dev.sls
 #
-# Setup the WSUWP Platform for local development in Vagrant.
-############################################################
+# Setup the WSUWP Single environment for local development in Vagrant.
+######################################################################
 
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
