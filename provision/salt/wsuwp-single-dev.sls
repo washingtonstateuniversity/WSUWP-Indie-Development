@@ -25,20 +25,24 @@ wsuwp-db:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
+
+{% for project, project_args in pillar.get('wp-single-projects',{}).items() %}
+wsuwp-db-{{ project }}:
   mysql_database.present:
-    - name: wsuwp
+    - name: {{ project_args['database'] }}
     - require:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
   mysql_grants.present:
     - grant: all privileges
-    - database: wsuwp.*
+    - database: {{ project_args['database'] }}.*
     - user: wp
     - require:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
+{% endfor %}
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
