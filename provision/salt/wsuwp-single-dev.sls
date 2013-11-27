@@ -42,6 +42,10 @@ wsuwp-db-{{ project }}:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
+  cmd.run:
+    - name: cp /var/www/{{ project_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ project_args['name'] }}.conf
+    - require:
+      - pkg: nginx
 {% endfor %}
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
