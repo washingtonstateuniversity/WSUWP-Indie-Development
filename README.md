@@ -1,6 +1,15 @@
-# WSUWP-Single
+# WSUWP Single Site Dev
 
-Temporary environment for individual sites not yet part of WSUWP
+A development environment for working with individual WordPress sites that are not yet part of the WSUWP Platform.
+
+## Getting Started
+
+1. Install Virtualbox
+2. Install Vagrant
+3. Clone WSUWP Single Site Dev
+4. Add projects (see below)
+5. `vagrant plugin install vagrant-hostsupdater`
+6. `vagrant up`
 
 ## Adding Projects
 
