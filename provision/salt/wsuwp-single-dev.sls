@@ -42,10 +42,12 @@ wsuwp-db-{{ project }}:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
+
+wsuwp-nginx-{{ project }}:
   cmd.run:
     - name: cp /var/www/{{ project_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ project_args['name'] }}.conf
-    - require:
-      - pkg: nginx
+
+wsuwp-hosts-{{ project }}:
   cmd.run:
     - name: echo -e "\n127.0.0.1 $(cat /var/www/{{ project_args['name'] }}/hosts)" >> /etc/hosts
 {% endfor %}
