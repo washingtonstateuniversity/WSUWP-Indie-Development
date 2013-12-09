@@ -1,4 +1,5 @@
 * text=auto
 
-# Force provisioning script to use LF, even on Windows
-*.sh    eol=lf
+# Force all files to use LF (Unix) newlines. Files are normalized on
+# commit and converted on checkout.
+* text eol=lf
