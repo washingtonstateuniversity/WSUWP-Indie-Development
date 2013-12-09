@@ -3,3 +3,8 @@
 # Force all files to use LF (Unix) newlines. Files are normalized on
 # commit and converted on checkout.
 * text eol=lf
+
+# This likely does not matter, but won't hurt. Binary files should
+# not be converted at all on commit or checkout.
+*.png binary
+*.jpg binary
