@@ -42,3 +42,7 @@ www/
 ```
 
 Provisioning will parse the `hosts` file and copy the `wsuwp-single-nginx.conf` file so that the VM and your local machine are aware of the domain the project is associated with.
+
+The `hosts` file should contain one domain on each line of the file. These domains will be added to both your local machine—through the vagrant-hostsupdater plugin—and to the guest machine.
+
+The `wsuwp-single-nginx.conf` should contain all `server` block information. See the [WSU News config](https://github.com/washingtonstateuniversity/WSU-News/blob/master/wsuwp-single-nginx.conf) as an example.
