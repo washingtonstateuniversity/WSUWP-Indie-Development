@@ -104,22 +104,17 @@ ERRORSS
     abort()
   end
 
-  # Salt Provisioning
-  #
-  # Map the provisioning directory to the guest machine and initiate the provisioning process
-  # with salt. On the first build of a virtual machine, if Salt has not yet been installed, it
-  # will be bootstrapped automatically. We have provided a modified local bootstrap script to
-  # avoid network connectivity issues and to specify that a newer version of Salt be installed.
-  config.vm.synced_folder "provision/salt", "/srv/salt"
+  $script =<<SCRIPT
+    cd /srv && rm -fr serverbase
+    cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/30-indie.zip
+    cd /srv && unzip serverbase.zip
+    cd /srv && mv WSU-Web-Provisioner-master wsu-web
+    cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
+    sh /srv/wsu-web/provision/bootstrap_salt.sh
+    cp /srv/wsu-web/provision/salt/minions/wsuwp-indie-vagrant.conf /etc/salt/minion.d/
+    salt-call --local --log-level=debug --config-dir=/etc/salt state.highstate
+SCRIPT
 
-  config.vm.provision "shell",
-    inline: "cp /srv/salt/config/yum.conf /etc/yum.conf"
+  config.vm.provision "shell", inline: $script
 
-  config.vm.provision :salt do |salt|
-    salt.bootstrap_script = 'provision/bootstrap_salt.sh'
-    salt.install_type = 'testing'
-    salt.verbose = true
-    salt.minion_config = 'provision/salt/minions/vagrant.conf'
-    salt.run_highstate = true
-  end
 end
