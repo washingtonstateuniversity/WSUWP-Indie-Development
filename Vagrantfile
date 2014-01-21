@@ -112,7 +112,7 @@ ERRORSS
     cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
     sh /srv/wsu-web/provision/bootstrap_salt.sh
     cp /srv/wsu-web/provision/salt/minions/wsuwp-indie-vagrant.conf /etc/salt/minion.d/
-    salt-call --local --log-level=debug --config-dir=/etc/salt state.highstate
+    salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
 SCRIPT
 
   config.vm.provision "shell", inline: $script
