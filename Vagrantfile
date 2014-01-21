@@ -91,7 +91,7 @@ Vagrant.configure("2") do |config|
   # This will only run during provisioning.
   if Vagrant.has_plugin?("vagrant-hosts")
     config.vm.provision :hosts do |provisioner|
-      provisioner.add_host '10.0.40.40', hosts
+      provisioner.add_host '127.0.0.1', hosts
     end
   else
     $error_msg = <<ERRORSS
