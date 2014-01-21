@@ -1,4 +1,4 @@
-WSUWP Single
+WSUWP Indie Development
 
 Copyright 2013 by the contributors
 
@@ -367,6 +367,6 @@ Public License instead of this License.
 WRITTEN OFFER
 
 The source code for any program binaries or compressed scripts that are
-included with WSUWP Environment can be freely obtained at the following URL:
+included with WSUWP Indie Development can be freely obtained at the following URL:
 
-	http://github.com/washingtonstateuniversity/WSUWP-Environment
+	http://github.com/washingtonstateuniversity/WSUWP-Indie-Development

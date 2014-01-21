@@ -11,7 +11,7 @@
 /.vagrant
 
 # Ignore the local projects pillar.
-provision/salt/pillar/projects.sls
+pillar/projects.sls
 
 # Ignore Web files pulled into the mapped www directory.
 /www/*

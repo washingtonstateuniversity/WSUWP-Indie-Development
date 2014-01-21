@@ -1,10 +1,10 @@
-# WSUWP Environment Vagrant Configuration
+# WSUWP Indie Vagrant Configuration
 #
-# This is the development Vagrantfile for the WSUWP Environment project. This
+# This is the development Vagrantfile for the WSUWP Indie project. This
 # Vagrant setup helps to describe an environment for local development that
-# matches the WSUWP Environment production setup as closely as possible.
+# matches the WSUWP Indie production setup as closely as possible.
 #
-# We recommend Vagrant 1.3.5 and Virtualbox 4.3.
+# We recommend Vagrant 1.4.x and Virtualbox 4.3.x
 #
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -25,60 +25,96 @@ Vagrant.configure("2") do |config|
 
   # Set the default hostname and IP address for the virtual machine. If you have any other
   # Vagrant environments on the 10.10.30.x subnet, you may want to consider modifying this.
-  config.vm.hostname = "wsuwp-single"
+  config.vm.hostname = "wsuwp-indie"
   config.vm.network :private_network, ip: "10.10.40.40"
 
   # Mount the local project's www/ directory as /var/www inside the virtual machine. This will
   # be mounted as the 'vagrant' user at first, then unmounted and mounted again as 'www-data'
   # during provisioning.
-  config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
+  config.vm.synced_folder "www", "/var/www", :mount_options => [ "uid=510,gid=510", "dmode=775", "fmode=774" ]
 
-  # Local Machine Hosts
+  #############################################################################
+  # Automatic Hosts Entries
   #
-  # If the Vagrant plugin hostsupdater (https://github.com/cogitatio/vagrant-hostsupdater) is
-  # installed, the following will automatically configure your local machine's hosts file with
-  # the domains specified in each project's `hosts` file.
-  if defined? VagrantPlugins::HostsUpdater
+  # In the following section, we make use of two plugins for Vagrant to add network
+  # hosts entries to both your local (host) machine and the virtual (guest) machine.
+  #
+  # Add a `hosts` file to each of your project directories to provide additional
+  # hosts when required. These should be added as one host per line.
+  #############################################################################
 
-    # Capture the paths to all `hosts` files under the repository's `www` directory.
-    paths = []
-    Dir.glob(vagrant_dir + '/www/**/hosts').each do |path|
-      paths << path
-    end
+  # Parse through the project level `hosts` files and put the hosts that are found
+  # into a single array.
+  paths = []
+  Dir.glob(vagrant_dir + '/www/**/hosts').each do |path|
+    paths << path
+  end
 
-    # Parse through the `hosts` files in each of the found paths and put the hosts
-    # that are found into a single array. Lines commented out with # will be skipped.
-    hosts = []
-    paths.each do |path|
-      new_hosts = []
-      file_hosts = IO.read(path).split( "\n" )
-      file_hosts.each do |line|
-        if line[0..0] != "#"
-          new_hosts << line
-        end
+  hosts = []
+  paths.each do |path|
+    new_hosts = []
+    file_hosts = IO.read(path).split( "\n" )
+    file_hosts.each do |line|
+      if line[0..0] != "#"
+        new_hosts << line
       end
-      hosts.concat new_hosts
     end
+    hosts.concat new_hosts
+  end
 
+  # Local Machine Hosts (/etc/hosts on the host)
+  #
+  # If the Vagrant plugin hostsupdater is installed, each project's `hosts` files will
+  # be parsed and the entries found will be added to your local machine's hosts file
+  # so that you are able to access the server configured inside the guest machine.
+  #
+  # vagrant-hostsupdater https://github.com/cogitatio/vagrant-hostsupdater
+  #
+  # This may require the entry of a password in OSX or Linux, and the acceptance of a UAC
+  # prompt in Windows.
+  if defined? VagrantPlugins::HostsUpdater
     config.hostsupdater.aliases = hosts
   end
 
-  # Salt Provisioning
+  # Virtual Machine Hosts (/etc/hosts on the guest)
   #
-  # Map the provisioning directory to the guest machine and initiate the provisioning process
-  # with salt. On the first build of a virtual machine, if Salt has not yet been installed, it
-  # will be bootstrapped automatically. We have provided a modified local bootstrap script to
-  # avoid network connectivity issues and to specify that a newer version of Salt be installed.
-  config.vm.synced_folder "provision/salt", "/srv/salt"
+  # If the Vagrant plugin vagrant-hosts is installed, each project's `hosts` files will
+  # be parsed and the entries found will be added to the virtual machine's hosts file
+  # so that it is able to access itself at those network addresses.
+  #
+  # vagrant-hosts https://github.com/adrienthebo/vagrant-hosts
+  #
+  # This will only run during provisioning.
+  if Vagrant.has_plugin?("vagrant-hosts")
+    config.vm.provision :hosts do |provisioner|
+      provisioner.add_host '127.0.0.1', hosts
+    end
+  else
+    $error_msg = <<ERRORSS
 
-  config.vm.provision "shell",
-    inline: "cp /srv/salt/config/yum.conf /etc/yum.conf"
+    WARNING
 
-  config.vm.provision :salt do |salt|
-    salt.bootstrap_script = 'provision/bootstrap_salt.sh'
-    salt.install_type = 'testing'
-    salt.verbose = true
-    salt.minion_config = 'provision/salt/minions/vagrant.conf'
-    salt.run_highstate = true
+    The vagrant-hosts plugin is recommended to ensure proper functionality with WSUWP Indie. Use the
+    following command to install this plugin before continuing:
+
+    vagrant plugin install vagrant-hosts
+
+ERRORSS
+    puts $error_msg
+    abort()
   end
+
+  $script =<<SCRIPT
+    cd /srv && rm -fr serverbase
+    cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/master.zip
+    cd /srv && unzip serverbase.zip
+    cd /srv && mv WSU-Web-Provisioner-master wsu-web
+    cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
+    sh /srv/wsu-web/provision/bootstrap_salt.sh
+    cp /srv/wsu-web/provision/salt/minions/wsuwp-indie-vagrant.conf /etc/salt/minion.d/
+    salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
+SCRIPT
+
+  config.vm.provision "shell", inline: $script
+
 end
