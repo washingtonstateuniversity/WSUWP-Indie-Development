@@ -106,7 +106,7 @@ ERRORSS
 
   $script =<<SCRIPT
     cd /srv && rm -fr serverbase
-    cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/30-indie.zip
+    cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/master.zip
     cd /srv && unzip serverbase.zip
     cd /srv && mv WSU-Web-Provisioner-master wsu-web
     cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
