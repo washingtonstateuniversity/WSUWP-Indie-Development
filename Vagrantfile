@@ -105,13 +105,14 @@ ERRORSS
   end
 
   $script =<<SCRIPT
-    cd /srv && rm -fr wsu-web* && rm -fr /srv/salt
-    cd /srv && curl -o wsu-web.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/master.zip
-    cd /srv && unzip wsu-web.zip
-    cd /srv && mv WSU-Web-Provisioner-master wsu-web
-    cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
-    sh /srv/wsu-web/provision/bootstrap_salt.sh
-    cp /srv/wsu-web/provision/salt/minions/wsuwp-indie-vagrant.conf /etc/salt/minion.d/
+    cd ~/ && rm -fr wsu-web* && rm -fr /srv/salt
+    cd ~/ && curl -o wsu-web.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/master.zip
+    cd ~/ && unzip wsu-web.zip
+    cd ~/ && mv WSU-Web-Provisioner-master wsu-web
+    cp -fr ~/wsu-web/provision/salt /srv/salt
+    cp /srv/salt/config/yum.conf /etc/yum.conf
+    sh ~/wsu-web/provision/bootstrap_salt.sh
+    cp /srv/salt/minions/wsuwp-indie-vagrant.conf /etc/salt/minion.d/
     salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
 SCRIPT
 
