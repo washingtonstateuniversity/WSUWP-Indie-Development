@@ -105,7 +105,7 @@ ERRORSS
   end
 
   $script =<<SCRIPT
-    cd /srv && rm -fr wsu-web
+    cd /srv && rm -fr wsu-web*
     cd /srv && curl -o wsu-web.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/master.zip
     cd /srv && unzip wsu-web.zip
     cd /srv && mv WSU-Web-Provisioner-master wsu-web
