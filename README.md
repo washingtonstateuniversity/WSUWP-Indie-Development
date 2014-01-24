@@ -18,15 +18,24 @@ Provisioning for this environment is pulled from [WSU Web Provisioner](https://g
 
 Provisioning can be made aware of local projects by adding a `provision/salt/pillar/projects.sls` file once this repository is checked out locally.
 
-This `projects.sls` file should look something like:
+This `projects.sls` file should have a `wsuwp-indie-sites` property with the following data structure:
 ```
-wp-single-projects:
-  news.wsu.edu:
-    name: news.wsu.edu
-    database: wsu_news
+wsuwp-indie-sites:
+  site1.wsu.edu:
+    name: site1.wsu.edu
+    database: site1_db_name
+    db_user: user
+    db_pass: password
+    db_host: localhost
+  site2.wsu.edu:
+    name: site2.wsu.edu
+    database: site2_db_name
+    db_user: user
+    db_pass: password
+    db_host: localhost
 ```
 
-This provides `wp-single-projects` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
+This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
 
 The web files for the project should be included in their own directory under `www`.
 
