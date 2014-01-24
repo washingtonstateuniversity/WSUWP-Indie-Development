@@ -25,13 +25,17 @@ Vagrant.configure("2") do |config|
 
   # Set the default hostname and IP address for the virtual machine. If you have any other
   # Vagrant environments on the 10.10.30.x subnet, you may want to consider modifying this.
-  config.vm.hostname = "wsuwp-indie"
+  config.vm.hostname = "wsuwp-indie-dev"
   config.vm.network :private_network, ip: "10.10.40.40"
 
   # Mount the local project's www/ directory as /var/www inside the virtual machine. This will
   # be mounted as the 'vagrant' user at first, then unmounted and mounted again as 'www-data'
   # during provisioning.
   config.vm.synced_folder "www", "/var/www", :mount_options => [ "uid=510,gid=510", "dmode=775", "fmode=774" ]
+
+  # Mount the local project's pillar/ directory as /srv/pillar inside the virtual machine. This allows
+  # us to pass arbitrary data to Salt during provisioning.
+  config.vm.synced_folder "pillar", "/srv/pillar", :mount_options => [ "dmode=775", "fmode=664" ]
 
   #############################################################################
   # Automatic Hosts Entries
@@ -105,13 +109,15 @@ ERRORSS
   end
 
   $script =<<SCRIPT
-    cd /srv && rm -fr serverbase
-    cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/master.zip
-    cd /srv && unzip serverbase.zip
-    cd /srv && mv WSU-Web-Provisioner-master wsu-web
-    cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
-    sh /srv/wsu-web/provision/bootstrap_salt.sh
-    cp /srv/wsu-web/provision/salt/minions/wsuwp-indie-vagrant.conf /etc/salt/minion.d/
+    cd ~/ && rm -fr wsu-web* && rm -fr /srv/salt
+    cd ~/ && curl -o wsu-web.zip -L https://github.com/washingtonstateuniversity/WSU-Web-Provisioner/archive/master.zip
+    cd ~/ && unzip wsu-web.zip
+    cd ~/ && mv WSU-Web-Provisioner-master wsu-web
+    cp -fr ~/wsu-web/provision/salt /srv/salt
+    cp /srv/salt/config/yum.conf /etc/yum.conf
+    sh ~/wsu-web/provision/bootstrap_salt.sh -- git develop
+    rm /etc/salt/minion.d/*.conf
+    cp /srv/salt/minions/wsuwp-indie.conf /etc/salt/minion.d/
     salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
 SCRIPT
 
