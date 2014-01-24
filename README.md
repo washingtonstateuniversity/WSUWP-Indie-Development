@@ -18,7 +18,8 @@ Provisioning for this environment is pulled from [WSU Web Provisioner](https://g
 
 Provisioning can be made aware of local projects by adding a `provision/salt/pillar/projects.sls` file once this repository is checked out locally.
 
-This `projects.sls` file should have a `wsuwp-indie-sites` property with the following data structure:
+A `pillar/sites.sls` file should be created with a `wsuwp-indie-sites` property containing the following data structure:
+
 ```
 wsuwp-indie-sites:
   site1.wsu.edu:
