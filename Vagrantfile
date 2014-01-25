@@ -115,7 +115,7 @@ ERRORSS
     cd /tmp && mv WSU-Web-Provisioner-prod-fix wsu-web
     cp -fr /tmp/wsu-web/provision/salt /srv/salt
     cp /tmp/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
-    sh /tmp/wsu-web/provision/bootstrap_salt.sh -- testing
+    sh /tmp/wsu-web/provision/bootstrap_salt.sh -- git develop
     rm /etc/salt/minion.d/*.conf
     cp /srv/salt/minions/wsuwp-indie.conf /etc/salt/minion.d/
     salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
