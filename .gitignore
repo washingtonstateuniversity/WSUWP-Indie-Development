@@ -10,8 +10,8 @@
 # Ignore Vagrant's runtime files.
 /.vagrant
 
-# Ignore the local projects pillar.
-pillar/projects.sls
+# Ignore the local sites pillar.
+pillar/sites.sls
 
 # Ignore Web files pulled into the mapped www directory.
 /www/*
