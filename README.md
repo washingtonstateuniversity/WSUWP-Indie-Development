@@ -28,12 +28,18 @@ wsuwp-indie-sites:
     db_user: user
     db_pass: password
     db_host: localhost
+    nginx:
+      server_name: site1.wsu.edu
+      directory: site1.wsu.edu/web
   site2.wsu.edu:
     name: site2.wsu.edu
     database: site2_db_name
     db_user: user
     db_pass: password
     db_host: localhost
+    nginx:
+      server_name: site2.wsu.edu
+      directory: site2.wsu.edu/web
 ```
 
 This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
