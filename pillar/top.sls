@@ -1,4 +1,5 @@
 base:
   '*':
+    - network
     - mysql
     - sites
