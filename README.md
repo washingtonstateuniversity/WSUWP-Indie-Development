@@ -30,7 +30,7 @@ wsuwp-indie-sites:
     db_host: localhost
     nginx:
       server_name: site1.wsu.edu
-      directory: site1.wsu.edu/web
+      directory: site1.wsu.edu/wordpress
   site2.wsu.edu:
     name: site2.wsu.edu
     database: site2_db_name
@@ -39,7 +39,7 @@ wsuwp-indie-sites:
     db_host: localhost
     nginx:
       server_name: site2.wsu.edu
-      directory: site2.wsu.edu/web
+      directory: site2.wsu.edu/wordpress
 ```
 
 This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
@@ -55,13 +55,13 @@ README.md
 www/
   news.wsu.edu/
     hosts
-    wsuwp-single-nginx.conf
-    web/
-      web files here...
+    wp-content/
+      plugins/
+      mu-plugins/
+      themes/
+      uploads/
 ```
 
-Provisioning will parse the `hosts` file and copy the `wsuwp-single-nginx.conf` file so that the VM and your local machine are aware of the domain the project is associated with.
+Provisioning will parse the `hosts` file and so that the VM and your local machine are aware of the domain the project is associated with.
 
 The `hosts` file should contain one domain on each line of the file. These domains will be added to both your local machine (via [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)) and to the guest machine (via [vagrant-hosts](https://github.com/adrienthebo/vagrant-hosts/)).
-
-The `wsuwp-single-nginx.conf` should contain all `server` block information. See the [WSU News config](https://github.com/washingtonstateuniversity/WSU-News/blob/master/wsuwp-single-nginx.conf) as an example.
