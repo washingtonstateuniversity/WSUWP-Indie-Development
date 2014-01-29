@@ -27,7 +27,7 @@ wsuwp-indie-sites:
     database: site1_db_name
     db_user: user
     db_pass: password
-    db_host: localhost
+    db_host: 127.0.0.1
     nginx:
       server_name: site1.wsu.edu
       directory: site1.wsu.edu/wordpress
@@ -36,7 +36,7 @@ wsuwp-indie-sites:
     database: site2_db_name
     db_user: user
     db_pass: password
-    db_host: localhost
+    db_host: 127.0.0.1
     nginx:
       server_name: site2.wsu.edu
       directory: site2.wsu.edu/wordpress
