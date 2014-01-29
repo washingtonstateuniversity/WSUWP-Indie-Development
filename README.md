@@ -27,7 +27,7 @@ wsuwp-indie-sites:
     database: site1_db_name
     db_user: user
     db_pass: password
-    db_host: localhost
+    db_host: 127.0.0.1
     nginx:
       server_name: site1.wsu.edu
       directory: site1.wsu.edu/wordpress
@@ -36,7 +36,7 @@ wsuwp-indie-sites:
     database: site2_db_name
     db_user: user
     db_pass: password
-    db_host: localhost
+    db_host: 127.0.0.1
     nginx:
       server_name: site2.wsu.edu
       directory: site2.wsu.edu/wordpress
@@ -44,7 +44,36 @@ wsuwp-indie-sites:
 
 This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
 
-The web files for the project should be included in their own directory under `www`.
+Options like `cache_key`, `batcache`, and `nonces` are available to add some more complex setups to the created WordPress installations.
+
+```
+wsuwp-indie-sites:
+  site1.wsu.edu
+    name: site1.wsu.edu
+    database: site1_db_name
+    db_user: user
+    db_pass: password
+    db_host: 127.0.0.1
+    batcache: true
+    cache_key: site1_wsu
+    nginx:
+      server_name: site1.wsu.edu
+      directory: site1.wsu.edu/wordpress
+    nonces: |
+        define('AUTH_KEY',         'uniquekeygoeshere');
+        define('SECURE_AUTH_KEY',  'uniquekeygoeshere');
+        define('LOGGED_IN_KEY',    'uniquekeygoeshere');
+        define('NONCE_KEY',        'uniquekeygoeshere');
+        define('AUTH_SALT',        'uniquekeygoeshere');
+        define('SECURE_AUTH_SALT', 'uniquekeygoeshere');
+        define('LOGGED_IN_SALT',   'uniquekeygoeshere');
+        define('NONCE_SALT',       'uniquekeygoeshere');
+```
+
+* The data for 'nonces' can be generated here: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/)
+* `cache_key` should be a short, unique value to distinguish it from other sites. An `object-cache.php` is necessary for this to be useful.
+
+Your WordPress project should live in a `site1.wsu.edu/wp-content/` directory in the form of plugins and themes. WordPress itself will be provided automatically by provisioning. If you do want to override the default WordPress installation, include a `site1.wsu.edu/wordpress` directory as well.
 
 An example directory and file structure:
 
