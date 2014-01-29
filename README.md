@@ -73,6 +73,8 @@ wsuwp-indie-sites:
 * The data for 'nonces' can be generated here: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/)
 * `cache_key` should be a short, unique value to distinguish it from other sites. An `object-cache.php` is necessary for this to be useful.
 
+Your WordPress project should live in a `site1.wsu.edu/wp-content/` directory in the form of plugins and themes. WordPress itself will be provided automatically by provisioning. If you do want to override the default WordPress installation, include a `site1.wsu.edu/wordpress` directory as well.
+
 An example directory and file structure:
 
 ```
