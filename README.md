@@ -30,8 +30,7 @@ wsuwp-indie-sites:
     db_host: 127.0.0.1
     nginx:
       server_name: dev.site1.wsu.edu
-      directory: site1.wsu.edu
-      wp_directory: site.wsu.edu/wordpress
+      root_path: site1.wsu.edu
   site2.wsu.edu:
     name: site2.wsu.edu
     database: site2_db_name
@@ -40,8 +39,7 @@ wsuwp-indie-sites:
     db_host: 127.0.0.1
     nginx:
       server_name: dev.site2.wsu.edu
-      directory: site2.wsu.edu
-      wp_directory: site2.wsu.edu/wordpress
+      root_path: directory: site2.wsu.edu
 ```
 
 This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
@@ -60,8 +58,7 @@ wsuwp-indie-sites:
     cache_key: site1_wsu
     nginx:
       server_name: dev.site1.wsu.edu
-      directory: site1.wsu.edu
-      wp_directory: site1.wsu.edu/wordpress
+      root_path: site1.wsu.edu
     nonces: |
         define('AUTH_KEY',         'uniquekeygoeshere');
         define('SECURE_AUTH_KEY',  'uniquekeygoeshere');
