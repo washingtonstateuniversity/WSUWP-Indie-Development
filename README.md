@@ -25,24 +25,18 @@ wsuwp-indie-sites:
   site1.wsu.edu:
     directory: site1.wsu.edu
     database: site1_db_name
-    db_user: user
-    db_pass: password
-    db_host: 127.0.0.1
     nginx:
       server_name: dev.site1.wsu.edu
   site2.wsu.edu:
     directory: site2.wsu.edu
     database: site2_db_name
-    db_user: user
-    db_pass: password
-    db_host: 127.0.0.1
     nginx:
       server_name: dev.site2.wsu.edu
 ```
 
 This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
 
-Options like `cache_key`, `batcache`, and `nonces` are available to add some more complex setups to the created WordPress installations.
+Options like `db_user, `db_pass`, `db_host`, `cache_key`, `batcache`, and `nonces` are available to add some more complex setups to the created WordPress installations.
 
 ```
 wsuwp-indie-sites:
