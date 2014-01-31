@@ -23,23 +23,21 @@ A `pillar/sites.sls` file should be created with a `wsuwp-indie-sites` property 
 ```
 wsuwp-indie-sites:
   site1.wsu.edu:
-    name: site1.wsu.edu
+    directory: site1.wsu.edu
     database: site1_db_name
     db_user: user
     db_pass: password
     db_host: 127.0.0.1
     nginx:
       server_name: dev.site1.wsu.edu
-      root_path: site1.wsu.edu
   site2.wsu.edu:
-    name: site2.wsu.edu
+    directory: site2.wsu.edu
     database: site2_db_name
     db_user: user
     db_pass: password
     db_host: 127.0.0.1
     nginx:
       server_name: dev.site2.wsu.edu
-      root_path: directory: site2.wsu.edu
 ```
 
 This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
