@@ -41,7 +41,7 @@ Options like `db_user, `db_pass`, `db_host`, `cache_key`, `batcache`, and `nonce
 ```
 wsuwp-indie-sites:
   site1.wsu.edu
-    name: site1.wsu.edu
+    directory: site1.wsu.edu
     database: site1_db_name
     db_user: user
     db_pass: password
@@ -50,7 +50,6 @@ wsuwp-indie-sites:
     cache_key: site1_wsu
     nginx:
       server_name: dev.site1.wsu.edu
-      root_path: site1.wsu.edu
     nonces: |
         define('AUTH_KEY',         'uniquekeygoeshere');
         define('SECURE_AUTH_KEY',  'uniquekeygoeshere');
