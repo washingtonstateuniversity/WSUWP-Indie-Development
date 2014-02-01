@@ -23,35 +23,25 @@ A `pillar/sites.sls` file should be created with a `wsuwp-indie-sites` property 
 ```
 wsuwp-indie-sites:
   site1.wsu.edu:
-    name: site1.wsu.edu
+    directory: site1.wsu.edu
     database: site1_db_name
-    db_user: user
-    db_pass: password
-    db_host: 127.0.0.1
     nginx:
       server_name: dev.site1.wsu.edu
-      directory: site1.wsu.edu
-      wp_directory: site.wsu.edu/wordpress
   site2.wsu.edu:
-    name: site2.wsu.edu
+    directory: site2.wsu.edu
     database: site2_db_name
-    db_user: user
-    db_pass: password
-    db_host: 127.0.0.1
     nginx:
       server_name: dev.site2.wsu.edu
-      directory: site2.wsu.edu
-      wp_directory: site2.wsu.edu/wordpress
 ```
 
 This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
 
-Options like `cache_key`, `batcache`, and `nonces` are available to add some more complex setups to the created WordPress installations.
+Options like `db_user, `db_pass`, `db_host`, `cache_key`, `batcache`, and `nonces` are available to add some more complex setups to the created WordPress installations.
 
 ```
 wsuwp-indie-sites:
   site1.wsu.edu
-    name: site1.wsu.edu
+    directory: site1.wsu.edu
     database: site1_db_name
     db_user: user
     db_pass: password
@@ -60,8 +50,7 @@ wsuwp-indie-sites:
     cache_key: site1_wsu
     nginx:
       server_name: dev.site1.wsu.edu
-      directory: site1.wsu.edu
-      wp_directory: site1.wsu.edu/wordpress
+      config: manual
     nonces: |
         define('AUTH_KEY',         'uniquekeygoeshere');
         define('SECURE_AUTH_KEY',  'uniquekeygoeshere');
@@ -75,6 +64,7 @@ wsuwp-indie-sites:
 
 * The data for 'nonces' can be generated here: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/)
 * `cache_key` should be a short, unique value to distinguish it from other sites. An `object-cache.php` is necessary for this to be useful.
+* If `config` is set to manual under nginx, an nginx config file should be provided in your project's `config/` directory.
 
 Your WordPress project should live in a `site1.wsu.edu/wp-content/` directory in the form of plugins and themes. WordPress itself will be provided automatically by provisioning. If you do want to override the default WordPress installation, include a `site1.wsu.edu/wordpress` directory as well.
 
@@ -87,6 +77,9 @@ README.md
 www/
   news.wsu.edu/
     hosts
+    config/
+      news.wsu.edu.conf
+      dev.news.wsu.edu.conf
     wp-content/
       plugins/
       mu-plugins/
