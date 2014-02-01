@@ -50,6 +50,7 @@ wsuwp-indie-sites:
     cache_key: site1_wsu
     nginx:
       server_name: dev.site1.wsu.edu
+      config: manual
     nonces: |
         define('AUTH_KEY',         'uniquekeygoeshere');
         define('SECURE_AUTH_KEY',  'uniquekeygoeshere');
@@ -63,6 +64,7 @@ wsuwp-indie-sites:
 
 * The data for 'nonces' can be generated here: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/)
 * `cache_key` should be a short, unique value to distinguish it from other sites. An `object-cache.php` is necessary for this to be useful.
+* If `config` is set to manual under nginx, an nginx config file should be provided in your project's `config/` directory.
 
 Your WordPress project should live in a `site1.wsu.edu/wp-content/` directory in the form of plugins and themes. WordPress itself will be provided automatically by provisioning. If you do want to override the default WordPress installation, include a `site1.wsu.edu/wordpress` directory as well.
 
@@ -75,6 +77,9 @@ README.md
 www/
   news.wsu.edu/
     hosts
+    config/
+      news.wsu.edu.conf
+      dev.news.wsu.edu.conf
     wp-content/
       plugins/
       mu-plugins/
