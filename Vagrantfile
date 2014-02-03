@@ -12,7 +12,8 @@ vagrant_dir = File.expand_path(File.dirname(__FILE__))
 
 Vagrant.configure("2") do |config|
 
-  # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
+  # Virtualbox specific settings to allocate memory to the virtual machine and to
+  # provide a name for easier tracking.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
     v.name = "wsuwp-indie-dev"
