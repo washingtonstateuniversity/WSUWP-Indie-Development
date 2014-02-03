@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
   # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
+    v.name = "wsuwp-indie-dev"
   end
 
   # CentOS 6.4, 64 bit release
