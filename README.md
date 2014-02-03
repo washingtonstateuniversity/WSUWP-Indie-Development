@@ -42,7 +42,7 @@ In the same `pillar/sites.sls` file, additional values can be specified to enabl
 
 ```
 wsuwp-indie-sites:
-  site1.wsu.edu
+  site1.wsu.edu:
     directory: site1.wsu.edu
     database: site1_db_name
     db_user: user
