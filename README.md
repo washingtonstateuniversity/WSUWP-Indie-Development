@@ -16,7 +16,7 @@ Provisioning for this environment is pulled from [WSU Web Provisioner](https://g
 
 ## Adding Projects
 
-Provisioning can be made aware of local projects by adding a `provision/salt/pillar/projects.sls` file once this repository is checked out locally.
+### Required Local Data
 
 A `pillar/sites.sls` file should be created with a `wsuwp-indie-sites` property containing the following data structure:
 
@@ -34,9 +34,11 @@ wsuwp-indie-sites:
       server_name: dev.site2.wsu.edu
 ```
 
-This provides `wsuwp-indie-sites` pillar data to other parts of provisioning, which helps explain what database to setup and where to find other files.
+This *pillar* data is provided to provisioning and helps in database creation and determining where the server will look to find your project files.
 
-Options like `db_user, `db_pass`, `db_host`, `cache_key`, `batcache`, and `nonces` are available to add some more complex setups to the created WordPress installations.
+### Optional Local Data
+
+In the same `pillar/sites.sls` file, additional values can be specified to enable more complex setups.
 
 ```
 wsuwp-indie-sites:
@@ -62,9 +64,11 @@ wsuwp-indie-sites:
         define('NONCE_SALT',       'uniquekeygoeshere');
 ```
 
-* The data for 'nonces' can be generated here: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/)
+* `db_user`, `db_pass`, and `db_host` can all be used to configure different database settings for the WordPress site.
+* `batcache` is assumed to be false. If specified as `true` as in the example above, [Batcache](https://github.com/Automattic/batcache) will be used to provide a page cache.
 * `cache_key` should be a short, unique value to distinguish it from other sites. An `object-cache.php` is necessary for this to be useful.
-* If `config` is set to manual under nginx, an nginx config file should be provided in your project's `config/` directory.
+* `config` under `nginx` defaults to `auto` and does not need to be specified. If you change this to `manual`, a `dev.site1.wsu.edu.conf` Nginx config should be included in `site1.wsu.edu/config/` so that provisioning uses that instead of automatically configuring Nginx for your site.
+* The data for 'nonces' can be generated here: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/) - note the `|` after `nonces:` that allows for the multiline data to be included. This is most important in production and can be used to cause reauthentication to occur on a site.
 
 Your WordPress project should live in a `site1.wsu.edu/wp-content/` directory in the form of plugins and themes. WordPress itself will be provided automatically by provisioning. If you do want to override the default WordPress installation, include a `site1.wsu.edu/wordpress` directory as well.
 
