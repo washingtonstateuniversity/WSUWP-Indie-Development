@@ -70,6 +70,8 @@ wsuwp-indie-sites:
 * `config` under `nginx` defaults to `auto` and does not need to be specified. If you change this to `manual`, a `dev.site1.wsu.edu.conf` Nginx config should be included in `site1.wsu.edu/config/` so that provisioning uses that instead of automatically configuring Nginx for your site.
 * The data for 'nonces' can be generated here: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/) - note the `|` after `nonces:` that allows for the multiline data to be included. This is most important in production and can be used to cause reauthentication to occur on a site.
 
+### Individual Site (Project) Structure
+
 Your WordPress project should live in a `site1.wsu.edu/wp-content/` directory in the form of plugins and themes. WordPress itself will be provided automatically by provisioning. If you do want to override the default WordPress installation, include a `site1.wsu.edu/wordpress` directory as well.
 
 An example directory and file structure:
