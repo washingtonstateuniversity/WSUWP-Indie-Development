@@ -116,7 +116,7 @@ ERRORSS
     cd /tmp && unzip wsu-web.zip
     cd /tmp && mv WSU-Web-Provisioner-master wsu-web
     cp -fr /tmp/wsu-web/provision/salt /srv/
-    cp /tmp/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
+    cp /tmp/wsu-web/provision/salt/config/local.yum.conf /etc/yum.conf
     sh /tmp/wsu-web/provision/bootstrap_salt.sh -K stable
     rm /etc/salt/minion.d/*.conf
     cp /srv/salt/minions/wsuwp-indie.conf /etc/salt/minion.d/
