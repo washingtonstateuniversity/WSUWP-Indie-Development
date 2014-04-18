@@ -30,6 +30,10 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "wsuwp-indie-dev"
   config.vm.network :private_network, ip: "10.10.40.40"
 
+  # The default SSH port in Vagrant is 2222. This helps avoid conflicts, even though Vagrant
+  # does what it can to auto correct those conflicts.
+  config.vm.network "forwarded_port", guest: 22, host: 2201, auto_correct: true
+
   # Mount the local project's www/ directory as /var/www inside the virtual machine. This will
   # be mounted as the 'vagrant' user at first, then unmounted and mounted again as 'www-data'
   # during provisioning.
