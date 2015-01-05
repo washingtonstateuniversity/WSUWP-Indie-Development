@@ -125,6 +125,8 @@ ERRORSS
     sed -i 's/mirrorlist=https/mirrorlist=http/' /etc/yum.repos.d/epel.repo
     sh /tmp/wsu-web/provision/bootstrap_salt.sh -K stable
     rm /etc/salt/minion.d/*.conf
+    rm /etc/salt/minion_id
+    echo "wsuwp-indie-dev" > /etc/salt/minion_id
     cp /srv/salt/minions/wsuwp-indie.conf /etc/salt/minion.d/
     salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
 SCRIPT
